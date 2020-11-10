@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-import django_heroku
-django_heroku.settings(locals())
+# import django_heroku
+# django_heroku.settings(locals())
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -124,12 +124,17 @@ USE_TZ = True
 # STATIC
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-root
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-url
+
 STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'static')
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 AUTH_USER_MODEL = 'authentication.UserAccount'
 
 LOGIN_REDIRECT_URL = '/auth/login/'
