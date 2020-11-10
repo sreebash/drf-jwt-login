@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    <!-- Page Content -->
+    <div class="container" style="min-height: 80vh;">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <h1 class="mt-4 mb-3">Register
+            <small>Form</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Register</li>
+        </ol>
+        <!-- Content Row -->
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div id="success"></div>
+                    <!-- For success/fail messages -->
+                    <button type="submit" class="btn btn-primary btn-block btn-sm" id="login-btn">Create an account</button>
+                    <p class="text-center">Have an account? <a href="{% url 'authentication:login' %}">Log In</a></p>
+                </form>
+            </div>
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+{% endblock container %}
+
