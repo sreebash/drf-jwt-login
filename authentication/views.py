@@ -30,9 +30,10 @@ def register_view(request):
     form = UserRegistrationForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
-            instance = form.save(commit=False)
-            instance.is_active = False
-            instance.save()
+            # instance = form.save(commit=False)
+            # instance.is_active = False
+            # instance.save()
+            form.save()
             return redirect('authentication:login')
         return render(request, 'register.html', {'form': form})
     return render(request, 'register.html', {'form': form})
