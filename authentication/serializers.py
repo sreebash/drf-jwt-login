@@ -24,6 +24,8 @@ class UserAccountSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     # password1 = serializers.CharField(write_only=True)
     # password2 = serializers.CharField(write_only=True)
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(min_length=6, write_only=True)
 
     def validate(self, data):
         if data['password1'] != data['password2']:
@@ -31,17 +33,17 @@ class UserSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        data = {
-            key: value for key, value in validated_data.items()
-            if key not in ('password1', 'password2')
-        }
-        data['password'] = validated_data['password']
-        return self.Meta.model.objects.create_user(**data)
+        password = validated_data.pop('password', None)
+        instance = self.Meta.model(**validated_data)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
 
     class Meta:
         model = UserAccount
-        fields = '__all__'
-        read_only_fields = ('id',)
+        fields = ('email', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
 
 
 class LogInSerializer(TokenObtainPairSerializer):
